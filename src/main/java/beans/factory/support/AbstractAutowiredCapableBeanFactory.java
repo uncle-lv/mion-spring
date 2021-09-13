@@ -1,12 +1,10 @@
 package beans.factory.support;
 
 import beans.exception.BeansException;
-import beans.factory.config.BeanDefinition;
-import beans.factory.config.BeanReference;
-import beans.factory.config.PropertyValue;
+import beans.factory.config.*;
 import cn.hutool.core.bean.BeanUtil;
 
-public abstract class AbstractAutowiredCapableBeanFactory extends AbstractBeanFactory {
+public abstract class AbstractAutowiredCapableBeanFactory extends AbstractBeanFactory implements AutowiredCapableBeanFactory {
 
     private InstantiationStrategy instantiationStrategy = new SimpleInstantiationStrategy();
 
@@ -28,6 +26,7 @@ public abstract class AbstractAutowiredCapableBeanFactory extends AbstractBeanFa
         try {
             bean = createBeanInstance(beanDefinition);
             applyPropertyValues(beanName, bean, beanDefinition);
+            initializeBean(beanName, bean, beanDefinition);
         } catch (Exception e) {
             throw new BeansException("Failed to instantiate bean", e);
         }
@@ -54,5 +53,37 @@ public abstract class AbstractAutowiredCapableBeanFactory extends AbstractBeanFa
         } catch (Exception e) {
             throw new BeansException("Failed to set property values for bean \"" + beanName + "\"", e);
         }
+    }
+
+    @Override
+    public Object applyBeanPostProcessorBeforeInitialization(Object existingBean, String beanName) throws BeansException {
+        Object result = existingBean;
+        for (BeanPostProcessor postProcessor: getBeanPostProcessorList()) {
+            Object current = postProcessor.postProcessBeforeInitialization(result, beanName);
+            if (null == current) {
+                return result;
+            }
+            result = current;
+        }
+        return result;
+    }
+
+    @Override
+    public Object applyBeanPostProcessorAfterInitialization(Object existingBean, String beanName) throws BeansException {
+        Object result = existingBean;
+        for (BeanPostProcessor postProcessor: getBeanPostProcessorList()) {
+            Object current = postProcessor.postProcessAfterInitialization(result, beanName);
+            if (null == current) {
+                return result;
+            }
+            result = current;
+        }
+        return result;
+    }
+
+    protected Object initializeBean(String beanName, Object bean, BeanDefinition beanDefinition) {
+        Object wrappedBean = applyBeanPostProcessorBeforeInitialization(bean, beanName);
+        wrappedBean = applyBeanPostProcessorAfterInitialization(bean, beanName);
+        return wrappedBean;
     }
 }
