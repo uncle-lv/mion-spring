@@ -2,6 +2,7 @@ package beans.factory.support;
 
 import beans.exception.BeansException;
 import beans.factory.config.BeanDefinition;
+import beans.factory.config.BeanReference;
 import beans.factory.config.PropertyValue;
 import cn.hutool.core.bean.BeanUtil;
 
@@ -44,6 +45,10 @@ public abstract class AbstractAutowiredCapableBeanFactory extends AbstractBeanFa
             for (PropertyValue propertyValue: beanDefinition.getPropertyValues().getPropertyValues()) {
                 String name = propertyValue.getName();
                 Object value = propertyValue.getValue();
+                if (value instanceof BeanReference) {
+                    BeanReference beanReference = (BeanReference) value;
+                    value = getBean(beanReference.getBeanName());
+                }
                 BeanUtil.setFieldValue(bean, name, value);
             }
         } catch (Exception e) {

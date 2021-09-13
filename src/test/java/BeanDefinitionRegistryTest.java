@@ -1,4 +1,4 @@
-import beans.UserService;
+import service.UserService;
 import beans.exception.BeansException;
 import beans.factory.config.BeanDefinition;
 import beans.factory.support.DefaultListableBeanFactory;

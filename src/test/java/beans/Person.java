@@ -6,6 +6,8 @@ public class Person {
 
     private int age;
 
+    private Phone phone;
+
     public String getName() {
         return name;
     }
@@ -20,5 +22,13 @@ public class Person {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public Phone getPhone() {
+        return phone;
+    }
+
+    public void setPhone(Phone phone) {
+        this.phone = phone;
     }
 }

@@ -1,4 +1,4 @@
-package beans;
+package service;
 
 public class UserService {
 
