@@ -4,7 +4,7 @@ import beans.exception.BeansException;
 import beans.factory.BeanFactory;
 import beans.factory.BeanFactoryAware;
 import context.ApplicationContext;
-import context.support.ApplicationContextAware;
+import context.ApplicationContextAware;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

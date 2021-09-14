@@ -3,6 +3,7 @@ package context.support;
 import beans.exception.BeansException;
 import beans.factory.config.BeanPostProcessor;
 import context.ApplicationContext;
+import context.ApplicationContextAware;
 
 public class ApplicationContextAwareProcessor implements BeanPostProcessor {
 

@@ -1,4 +1,4 @@
-package context.support;
+package context;
 
 import beans.exception.BeansException;
 import beans.factory.Aware;
