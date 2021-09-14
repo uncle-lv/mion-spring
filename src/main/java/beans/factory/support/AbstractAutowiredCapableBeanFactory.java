@@ -1,6 +1,7 @@
 package beans.factory.support;
 
 import beans.exception.BeansException;
+import beans.factory.BeanFactoryAware;
 import beans.factory.DisposableBean;
 import beans.factory.InitializingBean;
 import beans.factory.config.*;
@@ -49,6 +50,10 @@ public abstract class AbstractAutowiredCapableBeanFactory extends AbstractBeanFa
     }
 
     protected Object initializeBean(String beanName, Object bean, BeanDefinition beanDefinition) {
+        if (bean instanceof BeanFactoryAware) {
+            ((BeanFactoryAware) bean).setBeanFactory(this);
+        }
+
         Object wrappedBean = applyBeanPostProcessorBeforeInitialization(bean, beanName);
         try {
             invokeInitMethods(beanName, wrappedBean, beanDefinition);
