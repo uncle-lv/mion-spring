@@ -8,6 +8,7 @@ import beans.factory.config.*;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ClassUtil;
 import cn.hutool.core.util.StrUtil;
+import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Method;
 
@@ -79,8 +80,10 @@ public abstract class AbstractAutowiredCapableBeanFactory extends AbstractBeanFa
     }
 
     protected void registerDisposableIfNecessary(String beanName, Object bean, BeanDefinition beanDefinition) {
-        if (bean instanceof DisposableBean || StrUtil.isNotEmpty(beanDefinition.getDestroyMethodName())) {
-            registerDisposableBean(beanName,new DisposableBeanAdapter(bean, beanName, beanDefinition));
+        if (beanDefinition.isSingleton()) {
+            if (bean instanceof DisposableBean || StrUtil.isNotEmpty(beanDefinition.getDestroyMethodName())) {
+                registerDisposableBean(beanName,new DisposableBeanAdapter(bean, beanName, beanDefinition));
+            }
         }
     }
 
@@ -98,9 +101,12 @@ public abstract class AbstractAutowiredCapableBeanFactory extends AbstractBeanFa
         } catch (Exception e) {
             throw new BeansException("Failed to instantiate bean", e);
         }
+
         registerDisposableIfNecessary(beanName, bean,beanDefinition);
 
-        addSingleton(beanName, bean);
+        if (beanDefinition.isSingleton()) {
+            addSingleton(beanName, bean);
+        }
         return bean;
     }
 

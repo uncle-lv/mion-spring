@@ -2,6 +2,10 @@ package beans.factory.config;
 
 public class BeanDefinition {
 
+    public static String SCOPE_SINGLETON = "singleton";
+
+    public static String SCOPE_PROTOTYPE = "prototype";
+
     private Class beanClass;
 
     private PropertyValues propertyValues;
@@ -9,6 +13,12 @@ public class BeanDefinition {
     private String initMethodName;
 
     private String destroyMethodName;
+
+    private String scope = SCOPE_SINGLETON;
+
+    private boolean singleton = true;
+
+    private boolean prototype = false;
 
     public BeanDefinition(Class beanClass) {
         this(beanClass, null);
@@ -21,6 +31,20 @@ public class BeanDefinition {
 
     public Class getBeanClass() {
         return beanClass;
+    }
+
+    public void setScope(String scope) {
+        this.scope = scope;
+        this.singleton = SCOPE_SINGLETON.equals(scope);
+        this.prototype = SCOPE_PROTOTYPE.equals(scope);
+    }
+
+    public boolean isSingleton() {
+        return this.singleton;
+    }
+
+    public boolean isPrototype() {
+        return this.prototype;
     }
 
     public void setBeanClass(Class beanClass) {
