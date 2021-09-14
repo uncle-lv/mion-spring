@@ -5,4 +5,5 @@ import beans.factory.config.SingletonBeanRegistry;
 
 public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, SingletonBeanRegistry {
     void addBeanPostProcessor(BeanPostProcessor beanPostProcessor);
+    void destroySingletons();
 }
