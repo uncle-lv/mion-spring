@@ -49,4 +49,9 @@ public class DefaultListableBeanFactory extends AbstractAutowiredCapableBeanFact
         Set<String> beanNames = beanDefinitionMap.keySet();
         return beanNames.toArray(new String[beanNames.size()]);
     }
+
+    @Override
+    public void preInstantiateSingletons() throws BeansException {
+        beanDefinitionMap.keySet().forEach(this::getBean);
+    }
 }

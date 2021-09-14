@@ -75,7 +75,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
             }
 
             String beanName = StrUtil.isNotEmpty(id) ? id : name;
-            if (StrUtil.isNotEmpty(beanName)) {
+            if (StrUtil.isEmpty(beanName)) {
                 beanName = StrUtil.lowerFirst(clazz.getSimpleName());
             }
             BeanDefinition beanDefinition = new BeanDefinition(clazz);

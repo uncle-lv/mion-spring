@@ -15,4 +15,7 @@
         <property name="brand" value="IPhone"/>
     </bean>
 
+    <bean class="common.CustomerBeanPostProcessor"/>
+    <bean class="common.CustomBeanFactoryPostProcessor"/>
+
 </beans>
