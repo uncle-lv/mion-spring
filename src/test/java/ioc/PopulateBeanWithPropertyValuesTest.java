@@ -1,3 +1,5 @@
+package ioc;
+
 import beans.Person;
 import beans.Phone;
 import beans.exception.BeansException;

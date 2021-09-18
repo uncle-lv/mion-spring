@@ -1,3 +1,5 @@
+package ioc;
+
 import service.UserService;
 import beans.exception.BeansException;
 import beans.factory.config.BeanDefinition;

@@ -1,3 +1,5 @@
+package ioc;
+
 import cn.hutool.core.io.IoUtil;
 import core.io.DefaultResourceLoader;
 import core.io.FileSystemResource;

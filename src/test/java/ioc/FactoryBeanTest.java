@@ -1,3 +1,5 @@
+package ioc;
+
 import beans.Phone;
 import context.support.ClassPathXmlApplicationContext;
 import org.junit.jupiter.api.Assertions;

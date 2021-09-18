@@ -1,3 +1,5 @@
+package ioc;
+
 import beans.Person;
 import beans.factory.support.DefaultListableBeanFactory;
 import beans.factory.xml.XmlBeanDefinitionReader;

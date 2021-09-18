@@ -1,3 +1,5 @@
+package ioc;
+
 import common.event.CustomEvent;
 import context.support.ClassPathXmlApplicationContext;
 import org.junit.jupiter.api.Test;

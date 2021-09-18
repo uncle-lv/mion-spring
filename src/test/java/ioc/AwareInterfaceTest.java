@@ -1,3 +1,5 @@
+package ioc;
+
 import context.support.ClassPathXmlApplicationContext;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
