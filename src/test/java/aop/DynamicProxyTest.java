@@ -3,9 +3,8 @@ package aop;
 import aop.aspectj.AspectJExpressionPointcut;
 import aop.framework.CglibAopProxy;
 import aop.framework.JdkDynamicAopProxy;
+import aop.framework.ProxyFactory;
 import common.WorldServiceInterceptor;
-import org.aspectj.lang.annotation.Before;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import service.WorldService;
@@ -36,6 +35,17 @@ public class DynamicProxyTest {
     @Test
     public void testCglibDynamicProxy() throws Exception {
         WorldService proxy = (WorldService) new CglibAopProxy(advisedSupport).getProxy();
+        proxy.explode();
+    }
+
+    @Test
+    public void testProxyFactory() throws Exception {
+        advisedSupport.setProxyTargetClass(false);
+        WorldService proxy = (WorldService) new ProxyFactory(advisedSupport).getProxy();
+        proxy.explode();
+
+        advisedSupport.setProxyTargetClass(true);
+        proxy = (WorldService) new ProxyFactory(advisedSupport).getProxy();
         proxy.explode();
     }
 }
