@@ -17,7 +17,9 @@ public class JdkDynamicAopProxy implements AopProxy, InvocationHandler {
 
     @Override
     public Object getProxy() {
-        return Proxy.newProxyInstance(getClass().getClassLoader(), advised.getTargetSource().getTargetClass(), this);
+        return Proxy.newProxyInstance(getClass().getClassLoader(),
+                advised.getTargetSource().getTargetClass(),
+                this);
     }
 
     @Override
