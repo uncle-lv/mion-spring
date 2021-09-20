@@ -1,6 +1,7 @@
 package aop;
 
 import aop.aspectj.AspectJExpressionPointcut;
+import aop.aspectj.AspectJExpressionPointcutAdvisor;
 import aop.framework.CglibAopProxy;
 import aop.framework.JdkDynamicAopProxy;
 import aop.framework.ProxyFactory;
@@ -9,6 +10,7 @@ import aop.framework.adapter.MethodAfterReturningAdviceInterceptor;
 import aop.framework.adapter.MethodBeforeAdviceInterceptor;
 import aop.framework.adapter.MethodThrowingAdviceInterceptor;
 import common.*;
+import org.aopalliance.intercept.MethodInterceptor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import service.WorldService;
@@ -87,5 +89,28 @@ public class DynamicProxyTest {
         advisedSupport.setMethodInterceptor(methodThrowingAdviceInterceptor);
         WorldService proxy = (WorldService) new ProxyFactory(advisedSupport).getProxy();
         proxy.explode();
+    }
+
+    @Test
+    public void testAdvisor() throws Exception {
+        String expression = "execution(* service.WorldService.explode(..))";
+        WorldService worldService = new WorldServiceImpl();
+        AspectJExpressionPointcutAdvisor advisor = new AspectJExpressionPointcutAdvisor();
+        advisor.setExpression(expression);
+        MethodBeforeAdviceInterceptor methodBeforeAdviceInterceptor = new MethodBeforeAdviceInterceptor(new WorldServiceBeforeAdvice());
+        advisor.setAdvice(methodBeforeAdviceInterceptor);
+
+        ClassFilter classFilter = advisor.getPointcut().getClassFilter();
+        if (classFilter.matches(worldService.getClass())) {
+            AdvisedSupport advisedSupport = new AdvisedSupport();
+            TargetSource targetSource = new TargetSource(worldService);
+            advisedSupport.setTargetSource(targetSource);
+            advisedSupport.setMethodInterceptor((MethodInterceptor) advisor.getAdvice());
+            advisedSupport.setMethodMatcher(advisor.getPointcut().getMethodMatcher());
+
+            WorldService proxy = (WorldService) new ProxyFactory(advisedSupport).getProxy();
+            proxy.explode();
+
+        }
     }
 }
