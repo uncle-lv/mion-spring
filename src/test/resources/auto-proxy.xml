@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="worldService" class="service.WorldServiceImpl"/>
+
+    <bean class="aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"/>
+
+    <bean id="pointcutAdvisor" class="aop.aspectj.AspectJExpressionPointcutAdvisor">
+        <property name="expression" value="execution(* service.WorldService.explode(..))"/>
+        <property name="advice" ref="methodInterceptor"/>
+    </bean>
+
+
+    <bean id="methodInterceptor" class="aop.framework.adapter.MethodBeforeAdviceInterceptor">
+        <property name="advice" ref="beforeAdvice"/>
+    </bean>
+
+    <bean id="beforeAdvice" class="common.WorldServiceBeforeAdvice" />
+
+</beans>

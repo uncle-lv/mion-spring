@@ -3,11 +3,14 @@ package beans.factory.support;
 import beans.exception.BeansException;
 import beans.factory.ConfigurableListableBeanFactory;
 import beans.factory.config.BeanDefinition;
+import beans.factory.config.BeanPostProcessor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+@Slf4j
 public class DefaultListableBeanFactory extends AbstractAutowiredCapableBeanFactory implements BeanDefinitionRegistry, ConfigurableListableBeanFactory {
 
     private Map<String, BeanDefinition> beanDefinitionMap = new HashMap<>();
@@ -30,7 +33,7 @@ public class DefaultListableBeanFactory extends AbstractAutowiredCapableBeanFact
     public <T> Map<String, T> getBeanOfType(Class<T> type) throws BeansException {
         Map<String, T> result = new HashMap<>();
         beanDefinitionMap.forEach((beanName, beanDefinition) -> {
-            Class beanClass =beanDefinition.getBeanClass();
+            Class beanClass = beanDefinition.getBeanClass();
             if (type.isAssignableFrom(beanClass)) {
                 T bean = (T) getBean(beanName);
                 result.put(beanName, bean);

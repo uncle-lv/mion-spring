@@ -89,7 +89,19 @@ public abstract class AbstractAutowiredCapableBeanFactory extends AbstractBeanFa
 
     @Override
     protected Object createBean(String beanName, BeanDefinition beanDefinition) throws BeansException {
+        Object bean = resolveBeforeInstantiation(beanName, beanDefinition);
+        if (bean != null) {
+            return bean;
+        }
         return doCreateBean(beanName, beanDefinition);
+    }
+
+    protected Object resolveBeforeInstantiation(String beanName, BeanDefinition beanDefinition) {
+        Object bean = applyBeanPostProcessorsBeforeInstantiation(beanDefinition.getBeanClass(), beanName);
+        if (bean != null) {
+            bean = applyBeanPostProcessorAfterInitialization(bean, beanName);
+        }
+        return bean;
     }
 
     protected Object doCreateBean(String beanName, BeanDefinition beanDefinition) {
@@ -99,7 +111,7 @@ public abstract class AbstractAutowiredCapableBeanFactory extends AbstractBeanFa
             applyPropertyValues(beanName, bean, beanDefinition);
             initializeBean(beanName, bean, beanDefinition);
         } catch (Exception e) {
-            throw new BeansException("Failed to instantiate bean", e);
+            throw new BeansException("Failed to instantiate bean: " + beanName, e);
         }
 
         registerDisposableIfNecessary(beanName, bean,beanDefinition);
@@ -128,5 +140,18 @@ public abstract class AbstractAutowiredCapableBeanFactory extends AbstractBeanFa
         } catch (Exception e) {
             throw new BeansException("Failed to set property values for bean \"" + beanName + "\"", e);
         }
+    }
+
+    protected Object applyBeanPostProcessorsBeforeInstantiation(Class beanClass, String beanName) {
+        for (BeanPostProcessor beanPostProcessor : getBeanPostProcessorList()) {
+            if (beanPostProcessor instanceof InstantiationAwareBeanPostProcessor) {
+                Object result = ((InstantiationAwareBeanPostProcessor) beanPostProcessor).postProcessBeforeInstantiation(beanClass, beanName);
+                if (result != null) {
+                    return result;
+                }
+            }
+        }
+
+        return null;
     }
 }

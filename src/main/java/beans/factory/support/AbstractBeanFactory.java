@@ -20,12 +20,12 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
 
     @Override
     public Object getBean(String name) throws BeansException {
-        Object sharedInstance =getSingleton(name);
+        Object sharedInstance = getSingleton(name);
         if (sharedInstance != null) {
             return getObjectForBeanInstance(sharedInstance, name);
         }
 
-        BeanDefinition beanDefinition =getBeanDefinition(name);
+        BeanDefinition beanDefinition = getBeanDefinition(name);
         Object bean = createBean(name, beanDefinition);
         return getObjectForBeanInstance(bean, name);
     }
