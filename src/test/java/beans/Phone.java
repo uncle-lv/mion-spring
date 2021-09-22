@@ -1,5 +1,8 @@
 package beans;
 
+import stereotype.Component;
+
+@Component
 public class Phone {
 
     private String brand;
