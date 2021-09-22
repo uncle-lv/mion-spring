@@ -6,6 +6,7 @@ import beans.factory.FactoryBean;
 import beans.factory.config.BeanDefinition;
 import beans.factory.config.BeanPostProcessor;
 import beans.factory.config.ConfigurableBeanFactory;
+import util.StringValueResolver;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,6 +18,8 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
     private final List<BeanPostProcessor> beanPostProcessorList = new ArrayList<>();
 
     private final Map<String, Object> factoryBeanObjectCache = new HashMap<>();
+
+    private final List<StringValueResolver> embeddedValueResolverList = new ArrayList<>();
 
     @Override
     public Object getBean(String name) throws BeansException {
@@ -39,6 +42,20 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
     public void addBeanPostProcessor(BeanPostProcessor beanPostProcessor) {
         this.beanPostProcessorList.remove(beanPostProcessor);
         this.beanPostProcessorList.add(beanPostProcessor);
+    }
+
+    @Override
+    public String resolverEmbeddedValue(String value) {
+        String result = value;
+        for (StringValueResolver resolver: this.embeddedValueResolverList) {
+            result = resolver.resolveStringValue(result);
+        }
+        return result;
+    }
+
+    @Override
+    public void addEmbeddedValueResolver(StringValueResolver valueResolver) {
+        this.embeddedValueResolverList.add(valueResolver);
     }
 
     protected Object getObjectForBeanInstance(Object beanInstance, String beanName) {

@@ -108,6 +108,7 @@ public abstract class AbstractAutowiredCapableBeanFactory extends AbstractBeanFa
         Object bean = null;
         try {
             bean = createBeanInstance(beanDefinition);
+            applyBeanPostprocessorsBeforeApplyingPropertyValues(beanName, bean, beanDefinition);
             applyPropertyValues(beanName, bean, beanDefinition);
             initializeBean(beanName, bean, beanDefinition);
         } catch (Exception e) {
@@ -151,7 +152,19 @@ public abstract class AbstractAutowiredCapableBeanFactory extends AbstractBeanFa
                 }
             }
         }
-
         return null;
+    }
+
+    protected void applyBeanPostprocessorsBeforeApplyingPropertyValues(String beanName, Object bean, BeanDefinition beanDefinition) {
+        for (BeanPostProcessor beanPostProcessor: getBeanPostProcessorList()) {
+            if (beanPostProcessor instanceof InstantiationAwareBeanPostProcessor) {
+                PropertyValues propertyValues = ((InstantiationAwareBeanPostProcessor) beanPostProcessor).postProcessPropertyValues(beanDefinition.getPropertyValues(), bean, beanName);
+                if (propertyValues != null) {
+                    for (PropertyValue propertyValue: propertyValues.getPropertyValues()) {
+                        beanDefinition.getPropertyValues().addPropertyValue(propertyValue);
+                    }
+                }
+            }
+        }
     }
 }
