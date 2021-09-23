@@ -2,15 +2,19 @@ package beans;
 
 import beans.factory.DisposableBean;
 import beans.factory.InitializingBean;
+import beans.factory.annotation.Autowired;
 import lombok.extern.slf4j.Slf4j;
+import stereotype.Component;
 
 @Slf4j
+@Component
 public class Person implements InitializingBean, DisposableBean {
 
     private String name;
 
     private int age;
 
+    @Autowired
     private Phone phone;
 
     public void customInitMethod() {
