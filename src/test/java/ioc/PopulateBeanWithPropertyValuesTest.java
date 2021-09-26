@@ -2,7 +2,6 @@ package ioc;
 
 import beans.Person;
 import beans.Phone;
-import beans.exception.BeansException;
 import beans.factory.config.BeanDefinition;
 import beans.factory.config.BeanReference;
 import beans.factory.config.PropertyValue;

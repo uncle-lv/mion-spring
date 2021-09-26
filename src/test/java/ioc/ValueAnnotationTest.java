@@ -1,7 +1,7 @@
 package ioc;
 
 import beans.Phone;
-import context.support.ClassPathXmlApplicationContext;
+import org.mion.context.support.ClassPathXmlApplicationContext;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

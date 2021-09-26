@@ -1,7 +1,7 @@
 package common.event;
 
-import context.ApplicationListener;
-import context.event.ContextClosedEvent;
+import org.mion.context.ApplicationListener;
+import org.mion.context.event.ContextClosedEvent;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

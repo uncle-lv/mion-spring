@@ -1,12 +1,11 @@
 package beans.factory.support;
 
 import beans.exception.BeansException;
-import beans.factory.BeanFactory;
 import beans.factory.FactoryBean;
 import beans.factory.config.BeanDefinition;
 import beans.factory.config.BeanPostProcessor;
 import beans.factory.config.ConfigurableBeanFactory;
-import util.StringValueResolver;
+import org.mion.util.StringValueResolver;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,6 +1,5 @@
 package service;
 
-import beans.exception.BeansException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

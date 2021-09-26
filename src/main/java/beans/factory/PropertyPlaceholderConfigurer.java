@@ -5,9 +5,9 @@ import beans.factory.config.BeanDefinition;
 import beans.factory.config.BeanFactoryPostProcessor;
 import beans.factory.config.PropertyValue;
 import beans.factory.config.PropertyValues;
-import core.io.DefaultResourceLoader;
-import core.io.Resource;
-import util.StringValueResolver;
+import org.mion.core.io.DefaultResourceLoader;
+import org.mion.core.io.Resource;
+import org.mion.util.StringValueResolver;
 
 import java.io.IOException;
 import java.util.Properties;

@@ -1,7 +1,7 @@
 package beans;
 
 import beans.factory.annotation.Value;
-import stereotype.Component;
+import org.mion.stereotype.Component;
 
 @Component
 public class Phone {

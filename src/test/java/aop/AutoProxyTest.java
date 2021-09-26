@@ -1,8 +1,6 @@
 package aop;
 
-import beans.factory.config.BeanPostProcessor;
-import context.support.ClassPathXmlApplicationContext;
-import aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
+import org.mion.context.support.ClassPathXmlApplicationContext;
 import org.junit.jupiter.api.Test;
 import service.WorldService;
 

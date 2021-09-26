@@ -3,7 +3,6 @@ package beans.factory.support;
 import beans.exception.BeansException;
 import beans.factory.ConfigurableListableBeanFactory;
 import beans.factory.config.BeanDefinition;
-import beans.factory.config.BeanPostProcessor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;

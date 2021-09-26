@@ -3,8 +3,8 @@ package service;
 import beans.exception.BeansException;
 import beans.factory.BeanFactory;
 import beans.factory.BeanFactoryAware;
-import context.ApplicationContext;
-import context.ApplicationContextAware;
+import org.mion.context.ApplicationContext;
+import org.mion.context.ApplicationContextAware;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

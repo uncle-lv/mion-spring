@@ -1,6 +1,6 @@
 package common.event;
 
-import context.event.ApplicationContextEvent;
+import org.mion.context.event.ApplicationContextEvent;
 
 public class CustomEvent extends ApplicationContextEvent {
 
