@@ -12,11 +12,18 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
 
     private Map<String, Object> singletonObjects = new HashMap<>();
 
+    protected Map<String, Object> earlySingletonObjects = new HashMap<>();
+
     private final Map<String, DisposableBean> disposableBeanMap = new HashMap<>();
 
     @Override
     public Object getSingleton(String beanName) {
-        return singletonObjects.get(beanName);
+        Object bean = singletonObjects.get(beanName);
+
+        if (null == bean) {
+            bean = earlySingletonObjects.get(beanName);
+        }
+        return bean;
     }
 
     public void registerDisposableBean(String beanName, DisposableBean bean) {

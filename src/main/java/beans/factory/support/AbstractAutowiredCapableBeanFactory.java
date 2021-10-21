@@ -104,12 +104,21 @@ public abstract class AbstractAutowiredCapableBeanFactory extends AbstractBeanFa
     }
 
     protected Object doCreateBean(String beanName, BeanDefinition beanDefinition) {
-        Object bean = null;
+        Object bean;
+
         try {
             bean = createBeanInstance(beanDefinition);
+            if (beanDefinition.isSingleton()) {
+                earlySingletonObjects.put(beanName, bean);
+            }
+
+            boolean continueWithPropertyPopulation = applyBeanPostProcessorsAfterInstantiation(beanName, bean);
+            if (!continueWithPropertyPopulation) {
+                return bean;
+            }
             applyBeanPostprocessorsBeforeApplyingPropertyValues(beanName, bean, beanDefinition);
             applyPropertyValues(beanName, bean, beanDefinition);
-            initializeBean(beanName, bean, beanDefinition);
+            bean = initializeBean(beanName, bean, beanDefinition);
         } catch (Exception e) {
             throw new BeansException("Failed to instantiate bean: " + beanName, e);
         }
@@ -165,5 +174,18 @@ public abstract class AbstractAutowiredCapableBeanFactory extends AbstractBeanFa
                 }
             }
         }
+    }
+
+    private boolean applyBeanPostProcessorsAfterInstantiation(String beanName, Object bean) {
+        boolean continueWithPropertyPopulation = true;
+        for (BeanPostProcessor beanPostProcessor : getBeanPostProcessorList()) {
+            if (beanPostProcessor instanceof InstantiationAwareBeanPostProcessor) {
+                if (!((InstantiationAwareBeanPostProcessor) beanPostProcessor).postProcessAfterInstantiation(bean, beanName)) {
+                    continueWithPropertyPopulation = false;
+                    break;
+                }
+            }
+        }
+        return continueWithPropertyPopulation;
     }
 }
