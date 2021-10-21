@@ -4,6 +4,7 @@ import beans.exception.BeansException;
 import beans.factory.BeanFactoryAware;
 import beans.factory.DisposableBean;
 import beans.factory.InitializingBean;
+import beans.factory.ObjectFactory;
 import beans.factory.config.*;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ClassUtil;
@@ -109,7 +110,13 @@ public abstract class AbstractAutowiredCapableBeanFactory extends AbstractBeanFa
         try {
             bean = createBeanInstance(beanDefinition);
             if (beanDefinition.isSingleton()) {
-                earlySingletonObjects.put(beanName, bean);
+                Object finalBean = bean;
+                addSingletonFactory(beanName, new ObjectFactory<Object>() {
+                    @Override
+                    public Object getObject() throws BeansException {
+                        return getEarlyBeanReference(beanName, beanDefinition, finalBean);
+                    }
+                });
             }
 
             boolean continueWithPropertyPopulation = applyBeanPostProcessorsAfterInstantiation(beanName, bean);
@@ -187,5 +194,18 @@ public abstract class AbstractAutowiredCapableBeanFactory extends AbstractBeanFa
             }
         }
         return continueWithPropertyPopulation;
+    }
+
+    protected Object getEarlyBeanReference(String beanName, BeanDefinition beanDefinition, Object bean) {
+        Object exposedObject = bean;
+        for (BeanPostProcessor beanPostProcessor : getBeanPostProcessorList()) {
+            if (beanPostProcessor instanceof InstantiationAwareBeanPostProcessor) {
+                exposedObject = ((InstantiationAwareBeanPostProcessor) beanPostProcessor).getEarlyBeanReference(exposedObject, beanName);
+                if (exposedObject == null) {
+                    return exposedObject;
+                }
+            }
+        }
+        return exposedObject;
     }
 }
