@@ -10,11 +10,11 @@ import java.util.*;
 @Slf4j
 public class DefaultListableBeanFactory extends AbstractAutowiredCapableBeanFactory implements BeanDefinitionRegistry, ConfigurableListableBeanFactory {
 
-    private Map<String, BeanDefinition> beanDefinitionMap = new HashMap<>();
+    private Map<String, BeanDefinition> beanDefinitions = new HashMap<>();
 
     @Override
     public BeanDefinition getBeanDefinition(String beanName) throws BeansException {
-        BeanDefinition beanDefinition = beanDefinitionMap.get(beanName);
+        BeanDefinition beanDefinition = beanDefinitions.get(beanName);
         if (null == beanDefinition) {
             throw new BeansException("No bean named \"" + beanName + "\" is defined");
         }
@@ -23,13 +23,13 @@ public class DefaultListableBeanFactory extends AbstractAutowiredCapableBeanFact
 
     @Override
     public void registerBeanDefinition(String beanName, BeanDefinition beanDefinition) {
-        beanDefinitionMap.put(beanName, beanDefinition);
+        beanDefinitions.put(beanName, beanDefinition);
     }
 
     @Override
     public <T> T getBean(Class<T> requiredType) throws BeansException {
         List<String> beanNames= new ArrayList<>();
-        for (Map.Entry<String, BeanDefinition> entry: beanDefinitionMap.entrySet()) {
+        for (Map.Entry<String, BeanDefinition> entry: beanDefinitions.entrySet()) {
             Class beanClass = entry.getValue().getBeanClass();
             if (requiredType.isAssignableFrom(beanClass)) {
                 beanNames.add(entry.getKey());
@@ -46,7 +46,7 @@ public class DefaultListableBeanFactory extends AbstractAutowiredCapableBeanFact
     @Override
     public <T> Map<String, T> getBeanOfType(Class<T> type) throws BeansException {
         Map<String, T> result = new HashMap<>();
-        beanDefinitionMap.forEach((beanName, beanDefinition) -> {
+        beanDefinitions.forEach((beanName, beanDefinition) -> {
             Class beanClass = beanDefinition.getBeanClass();
             if (type.isAssignableFrom(beanClass)) {
                 T bean = (T) getBean(beanName);
@@ -58,17 +58,17 @@ public class DefaultListableBeanFactory extends AbstractAutowiredCapableBeanFact
 
     @Override
     public boolean containsBeanDefinition(String beanName) {
-        return beanDefinitionMap.containsKey(beanName);
+        return beanDefinitions.containsKey(beanName);
     }
 
     @Override
     public String[] getBeanDefinitionNames() {
-        Set<String> beanNames = beanDefinitionMap.keySet();
+        Set<String> beanNames = beanDefinitions.keySet();
         return beanNames.toArray(new String[beanNames.size()]);
     }
 
     @Override
     public void preInstantiateSingletons() throws BeansException {
-        beanDefinitionMap.keySet().forEach(this::getBean);
+        beanDefinitions.keySet().forEach(this::getBean);
     }
 }

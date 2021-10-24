@@ -1,8 +1,8 @@
 package beans.factory.support;
 
 import beans.exception.BeansException;
-import org.mion.core.io.Resource;
-import org.mion.core.io.ResourceLoader;
+import io.Resource;
+import io.ResourceLoader;
 
 public interface BeanDefinitionReader {
     BeanDefinitionRegistry getRegistry();

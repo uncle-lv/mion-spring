@@ -4,7 +4,7 @@ import beans.factory.DisposableBean;
 import beans.factory.InitializingBean;
 import beans.factory.annotation.Autowired;
 import lombok.extern.slf4j.Slf4j;
-import org.mion.stereotype.Component;
+import stereotype.Component;
 
 @Slf4j
 @Component

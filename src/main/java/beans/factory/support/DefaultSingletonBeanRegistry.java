@@ -17,7 +17,7 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
 
     private Map<String, ObjectFactory<?>> singletonFactories = new HashMap<String, ObjectFactory<?>>();
 
-    private final Map<String, DisposableBean> disposableBeanMap = new HashMap<>();
+    private final Map<String, DisposableBean> disposableBeans = new HashMap<>();
 
     @Override
     public Object getSingleton(String beanName) {
@@ -38,13 +38,13 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
     }
 
     public void registerDisposableBean(String beanName, DisposableBean bean) {
-        disposableBeanMap.put(beanName, bean);
+        disposableBeans.put(beanName, bean);
     }
 
     public void destroySingletons() {
-        Set<String> beanNames = disposableBeanMap.keySet();
+        Set<String> beanNames = disposableBeans.keySet();
         for (String beanName: beanNames) {
-            DisposableBean disposableBean = disposableBeanMap.remove(beanName);
+            DisposableBean disposableBean = disposableBeans.remove(beanName);
             try {
                 disposableBean.destroy();
             } catch (Exception e) {

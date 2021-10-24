@@ -1,8 +1,8 @@
 package beans.factory.support;
 
 import beans.exception.BeansException;
-import org.mion.core.io.DefaultResourceLoader;
-import org.mion.core.io.ResourceLoader;
+import io.DefaultResourceLoader;
+import io.ResourceLoader;
 
 public abstract class AbstractBeanDefinitionReader implements BeanDefinitionReader {
 

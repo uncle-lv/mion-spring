@@ -1,10 +1,10 @@
 package ioc;
 
 import cn.hutool.core.io.IoUtil;
-import org.mion.core.io.DefaultResourceLoader;
-import org.mion.core.io.FileSystemResource;
-import org.mion.core.io.Resource;
-import org.mion.core.io.UrlResource;
+import io.DefaultResourceLoader;
+import io.FileSystemResource;
+import io.Resource;
+import io.UrlResource;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;

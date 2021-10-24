@@ -4,7 +4,7 @@ import beans.BeanA;
 import beans.BeanB;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mion.context.support.ClassPathXmlApplicationContext;
+import context.support.ClassPathXmlApplicationContext;
 
 public class CircularReferenceWithoutProxyBeanTest {
 

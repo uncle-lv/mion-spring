@@ -1,7 +1,7 @@
 package ioc;
 
 import common.event.CustomEvent;
-import org.mion.context.support.ClassPathXmlApplicationContext;
+import context.support.ClassPathXmlApplicationContext;
 import org.junit.jupiter.api.Test;
 
 public class EventAndEventListenerTest {

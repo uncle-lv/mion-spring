@@ -5,7 +5,7 @@ import beans.factory.FactoryBean;
 import beans.factory.config.BeanDefinition;
 import beans.factory.config.BeanPostProcessor;
 import beans.factory.config.ConfigurableBeanFactory;
-import org.mion.util.StringValueResolver;
+import util.StringValueResolver;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,11 +14,11 @@ import java.util.Map;
 
 public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry implements ConfigurableBeanFactory {
 
-    private final List<BeanPostProcessor> beanPostProcessorList = new ArrayList<>();
+    private final List<BeanPostProcessor> beanPostProcessors = new ArrayList<>();
 
     private final Map<String, Object> factoryBeanObjectCache = new HashMap<>();
 
-    private final List<StringValueResolver> embeddedValueResolverList = new ArrayList<>();
+    private final List<StringValueResolver> embeddedValueResolvers = new ArrayList<>();
 
     @Override
     public Object getBean(String name) throws BeansException {
@@ -39,14 +39,14 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
 
     @Override
     public void addBeanPostProcessor(BeanPostProcessor beanPostProcessor) {
-        this.beanPostProcessorList.remove(beanPostProcessor);
-        this.beanPostProcessorList.add(beanPostProcessor);
+        this.beanPostProcessors.remove(beanPostProcessor);
+        this.beanPostProcessors.add(beanPostProcessor);
     }
 
     @Override
     public String resolverEmbeddedValue(String value) {
         String result = value;
-        for (StringValueResolver resolver: this.embeddedValueResolverList) {
+        for (StringValueResolver resolver: this.embeddedValueResolvers) {
             result = resolver.resolveStringValue(result);
         }
         return result;
@@ -54,7 +54,7 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
 
     @Override
     public void addEmbeddedValueResolver(StringValueResolver valueResolver) {
-        this.embeddedValueResolverList.add(valueResolver);
+        this.embeddedValueResolvers.add(valueResolver);
     }
 
     protected Object getObjectForBeanInstance(Object beanInstance, String beanName) {
@@ -79,7 +79,7 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
     }
 
     public List<BeanPostProcessor> getBeanPostProcessorList() {
-        return beanPostProcessorList;
+        return beanPostProcessors;
     }
 
     protected abstract Object createBean(String beanName, BeanDefinition beanDefinition) throws BeansException;

@@ -1,6 +1,6 @@
 package ioc;
 
-import org.mion.context.support.ClassPathXmlApplicationContext;
+import context.support.ClassPathXmlApplicationContext;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import service.HelloService;
